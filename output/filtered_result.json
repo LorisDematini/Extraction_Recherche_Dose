@@ -1,0 +1,74 @@
+{
+    "ANDROTELO": {
+        "titre": "Essai Bayésien de phase I/II évaluant l’efficacité et la tolérance du danazol chez les patients ayant une atteinte hématologique ou pulmonaire sévère liée à une téloméropathie",
+        "Acronyme": "ANDROTELO",
+        "maladie": "Patients âgés de plus de 15 ans présentant des atteintes hématologiques ou pulmonaires de téloméropathies.",
+        "investigateur_principal": "Dr Flore Sicre de Fontbrune, Hématologie greffe, Hôpital Saint-Louis, Paris",
+        "numero_enregistrement": "2018-001686-17",
+        "traitement_recherche": "DANAZOL 200 mg sous forme de gélules 800 mg/j par voie orale, en 2 prises Durée du traitement : 12 mois"
+    },
+    "PACIFIC": {
+        "titre": "Protection vaccinale Anti-Covid-19 portant sur les enfants Immunodéprimés (1 à 15 ans) atteints de leucémie aiguë et leur Fratrie (de 5 à15 ans). Essai de Phase I-II évaluant la tolérance et l’Immunogénicité humorale et Cellulaire post-vaccinale.",
+        "Acronyme": "PACIFIC",
+        "maladie": "- Enfants de 1 à 15 ans atteints de LA en cours de chimiothérapie ou dont la date de dernière séance de chimiothérapie est inférieure ou égale à 12 mois. - Fratrie des enfants atteints de LA (vivant sous le même toit > 50% du temps) : de 5 à 15 ans.",
+        "investigateur_principal": "Pr. Arnaud Petit",
+        "numero_enregistrement": "2021-002966-41",
+        "traitement_recherche": "Vaccin COMIRNATY® (BNT162b2) : 2 injections à 21 jours d’intervalle"
+    },
+    "ACTIVATE": {
+        "titre": "Open label multi-center dose-escalation phase 1 Clinical Trial Assessing safety, tolerability and efficacy of the combination of Actinomycin D and venetoclax in Relapsed/Refractory (R/R) Acute Myeloid Leukemia (AML)",
+        "Acronyme": "ACTIVATE",
+        "maladie": "Patients aged 18 years old or more with R/R AML.",
+        "investigateur_principal": "Dr Sofiane FODIL",
+        "numero_enregistrement": "2025-524728-22-01",
+        "traitement_recherche": "Treatment will be delivered in consecutive cycles of 28 days of administration. Cycle windows may be extended beyond D28 upon prolonged myelosuppression, for monitoring until recovery. Patients will receive for two cycles: - Venetoclax daily days 1-7, - And Actinomycin D by short IV infusion 12.5 μg/kg/d for up to 3 days starting on D3. Patients deriving clinical benefit (defined as achievement of MLFS, CRi, CRh or CR) after 2 cycles may receive up to 10 consolidation cycles outside of the study, at the investigator's discretion, consisting of: - Venetoclax daily days 1-7, - And Actinomycin D by short IV infusion 12.5 μg/kg/d at day 3. Patients with a clinical benefit eligible for allogeneic transplantation, at the investigator's discretion, may receive up to 6 cycles prior to transplantation, outside of the study. Dose Levels for Actinomycin D are based on protocol available with safety data15 in keeping with FDA guidance for the co-development of two drugs18. Actinomycin D will start on d3, after initial ramp up dosage of venetoclax, up to 3 days. Venetoclax will be given with a ramp up dosage over 3 days (20-50- 70mg) until the daily dose of 70mg/d in patient with azole antifungal prophylaxis starting at D1. Venetoclax is given until D7 in each cycle to avoid further hematological toxicity. Three dose schedules of actinomycin D will be explored in induction phase, starting at DL1: • DL1: Venetoclax daily days 1-7 and Actinomycin D 12.5 μg/kg/d at day 3, • DL2: Venetoclax daily days 1-7 and Actinomycin D 12.5 μg/kg/d at days 3-4, • DL3: Venetoclax daily days 1-7 and Actinomycin D 12.5 μg/kg/d at days 3-5, Dose escalation will be conducted according to a dose finding design with sequential dose assignment with cohorts of size 3, the number of patients eventually assessed at each dose level depending on the DLT."
+    },
+    "EXPORAKT": {
+        "titre": "Open-label multi-center Phase 1/2 Clinical Trial Assessing safety, tolerability and efficacy of the combination of Capivasertib and Selinexor in Relapsed/Refractory (R/R) Acute Myeloid Leukemia (AML)",
+        "Acronyme": "EXPORAKT",
+        "maladie": "Patients aged 18 years old or more with R/R AML",
+        "investigateur_principal": "Dr Lina BENAJIBA",
+        "numero_enregistrement": null,
+        "traitement_recherche": "Patients will receive Selinexor and Capivasertib per os (tablets) in consecutive cycles of 28 days, until disease progression, death or consent withdrawal. The study treatment period will continue for up to 24 cycles after the first dose of study drug of the last enrolled patient. Patients who continue to benefit beyond 24 cycles according to investigator’s judgment could be enrolled in a subsequent extended treatment access study as part of a protocol amendment if Astrazeneca and Menarini agree to continue drug delivery for these patients. Selinexor is approved and marketed as treatment of multiple myeloma. Capivasertib is evaluated in phase 3 trials in breast and prostate cancer. Dose Levels for Selinexor and Capivasertib are based on RP2D and available safety data(12,16), in keeping with FDA guidance for the co- development of two drugs(30). Selinexor tablets dosed at 20mg, capivasertib tablets dosed at 80mg, 160mg or 200mg. Selinexor will be given at 40mg, 60mg or 80mg once weekly at D1, 8, 15, and 22 of 28-days cycles. Capivasertib will be given at 240, 320, 400 or 480 mg once daily, D1-4, 8- 11, 15-18, 22-25, of 28-days cycles. Eight candidate drug doses combinations will be evaluated: ● Combination DL-1: 40 mg Selinexor, 240mg Capivasertib. ● Combination DL-2: 40 mg Selinexor, 320mg Capivasertib. ● Combination DL-3: 60 mg Selinexor, 320mg Capivasertib. ● Combination DL-4: 60 mg Selinexor, 400mg Capivasertib. ● Combination DL-5: 60 mg Selinexor, 480mg Capivasertib. ● Combination DL-6: 80 mg Selinexor, 320mg Capivasertib. ● Combination DL-7: 80 mg Selinexor, 400mg Capivasertib. ● Combination DL-8: 80 mg Selinexor, 480mg Capivasertib. Dose escalation will be conducted according to a dose finding design with sequential dose assignment with cohorts of size 1 to 3, the number of patients eventually assessed at each dose level depending on the DLT observations."
+    },
+    "CAPTiRALL": {
+        "titre": "Combination of an Anti-PD1 antibody with Tisagenlecleucel Reinfusion in children, adolescents and young adults with Acute Lymphoblastic Leukemia after loss of persistence Observational cohort of patients with early loss of B- Cell Aplasia after 1st infusion of tisagenlecleucel",
+        "Acronyme": "CAPTiRALL",
+        "maladie": "Relapsed or refractory B-ALL (any relapse after HSCT, 2nd relapse or later, refractory ALL), aged 1-25 years old, previously treated by tisagenlecleucel (Kymriah®), Cohort 1 presenting early loss of B cell aplasia (< 6 months after infusion) And being in MRD negative complete remission or Cohort 2: presenting loss of B cell aplasia and having detectable marrow and/or blood and/or CSF CD19+ ALL cells.",
+        "investigateur_principal": "Pr André Baruchel. Pediatric Hematology and Immunology – Department, Robert Debré University Hospital, Paris, France",
+        "numero_enregistrement": "2021-003035-28",
+        "traitement_recherche": "• Tisagenlecleucel (Kymriah®): second infusion of the product after initial manufacturing, if available, provided by NOVARTIS • Anti PD1 antibody: nivolumab (Opdivo®) provided by Bristol-Meyers Squibb"
+    },
+    "CITY": {
+        "titre": "A phase 1, multicenter, open-label, prospective, first-in-human dose-escalation clini trial of Domain Therapeutics’ anti-CCR8 monoclonal antibody (DT-7012) in patie with relapsed or refractory cutaneous T-cell lymphomas (CTCL) cal nts",
+        "Acronyme": "CITY (CCR8 In cutaneous T cell lYmphomas)",
+        "maladie": "Adult patients with relapsed or refractory CTCL after signed informed consent",
+        "investigateur_principal": "Pr Adèle de Masson",
+        "numero_enregistrement": "2024-520294-13-00",
+        "traitement_recherche": "Phase 1 dose-escalation study of DT-7012 given by intravenous infusion QW x5, th Q2W X10 injections, pursued Q4W if clinical benefit en"
+    },
+    "DualCALM-01": {
+        "titre": "A multicentric phase I/IIA MB-CART2219.1 Chimeric Antigen Receptor (CAR)T-cell therapy clinical trial in adult patients with relapsed/refractory CD19-positive B-cell Acute Lymphoblastic Leukemia.",
+        "Acronyme": "DualCALM-01",
+        "maladie": "Adults with R/R B-cell acute lymphoblastic leukaemia (BCP-ALL)",
+        "investigateur_principal": "Pr. Nicolas Boissel Hematology AYA Department Hôpital Saint-Louis 1, avenue Claude Vellefaux 75010 PARIS, France Tel. 01.42.38.51.27 Email : nicolas.boissel@aphp.fr",
+        "numero_enregistrement": "2023-508070-29-00",
+        "traitement_recherche": "Autologous T cells ex vivo lentivirally transduced with the tandem (anti-) CD19CD22 chimeric antigen receptor (CAR) construct and expanded (MB- CART2219.1) in a 7 days manufacturing process. In cases where the lymphodepletion regimen cannot be initiated as scheduled, the product may be cryopreserved for later use. Dose escalation: • Dose Level 0: 0.25 x 10^6 CAR-T cells/kg = fallback dose • Dose Level 1: 0.5 x 10^6 CAR-T cells/kg • Dose Level 2: 1.0 x 10^6 CAR-T cells/kg • Dose Level 3: 2.0 x 10^6 CAR-T cells/kg The first cohort will be administered at Dose Level 1. Then, based on Bayesian actualization of DLT probabilities, each subsequent cohort will be treated at the estimated MTD over 4 dose levels, unless dose skipping. In case of DLT at Dose Level 1, the fallback dose of Dose Level 0 will be tested. Marketing authorization: no"
+    },
+    "SALMA": {
+        "titre": "Phase I/II Clinical Trial Assessing the Combination of Sulfasalazine with Standard of Care Induction Therapy in Newly Diagnosed Acute Myeloid Leukemias (AML) Patients 60 years or older – the SALMA Study",
+        "Acronyme": "SALMA",
+        "maladie": "Patients ≥ 60 years with a recently diagnosed non favorable AML and eligible for intensive chemotherapy",
+        "investigateur_principal": "Prof Raphaël Itzykson",
+        "numero_enregistrement": "2024-513084-38-00",
+        "traitement_recherche": "Investigational medicinal product: Sulfasalazine, approved and marketed for years as treatment of inflammatory diseases Tablets dosed at 500 mg Oral route with water at the following dose levels (DL) tested during the phase I: DL-2: 0.5 g, bid hence 1.0 g/d, days 0-7 DL-1: 0.5 g, tid hence 1.5 g/d, days 0-7 DL1: 0.5 g, tid hence 1.5 g/d, days 0-14 DL2: 1.0 g, tid hence 3.0 g/d, days 0-14 DL3: 1.5 g, tid hence 4.5 g/d, days 0-14 DL4: 2.0 g, tid hence 6.0 g/d, days 0-14 DL5: 2.0 g, four times per day hence 8.0 g/d, days 0-14 At all dose levels, patients will receive the standard of care IDA-AraC backbone, considered as auxiliary medicinal products in this clinical trial,7 consisting of: Drug doses Administration Days Time Idarubicin*,** 12 IV, 30mn 3 Day 1 to 3 mg/m2 days Cytarabine* 200 CIV over 24h 7 Day 1 to 7 mg/m2 days *for these two drugs the body area should not be capped to 2 m2 Dose escalation will be conducted according to the survival continual reassessment method, the number of patients assessed at each dose level depending on the safety observations. Patients should be hospitalized during the induction course at least until day 21 and/or achievement of a neutrophil count > 500/µL. Thereafter they can be discharged if, according to the judgment of the investigator, their medical condition allows it and when all non-hematological treatment-emergent AEs resolve to Grade ≤ 2. Patients should have adequate IV hydration during SSZ exposure. Following the EOI visit, patients will continue to be followed for treatment related TEAEs for 30 days following the end of SSZ exposure, and for post-induction therapy, relapse and survival for 12 months after the EOI visit. Treatments beyond EOI are left to the clinicians’ choice and may include consolidation chemotherapy, oral maintenance and/or allogeneic stem cell transplantation. ALFA guidelines for post-remission therapy in AML patients 60 years or older treated intensively are provided in the protocol Appendices. A minimal follow-up for transplantation, relapse and death for an additional 5 years after study exit will be undertaken."
+    },
+    "TSHINE": {
+        "titre": "Safety and immunogenicity of recombinant adjuvanted herpes zoster vaccine in children and adolescents with acute lymphoblastic leukaemia: a phase 1/2 clinical trial",
+        "Acronyme": "TSHINE",
+        "maladie": "Children aged 1 to 17 years with acute lymphoblastic leukaemia",
+        "investigateur_principal": "Dr Fanny Alby-Laurent Pediatric Hematology, Immmunology and Oncology Department Armand Trousseau Hospital Tel : +33 1.44.73.68.46 Email: fanny.alby-laurent@aphp.fr.",
+        "numero_enregistrement": "2025-524818-28-00",
+        "traitement_recherche": "The investigational medicinal product of the study is HZ/su vaccine (Shingrix®) (GSK). Administration by intramuscular route will be performed at M0 and at M1 for the “vaccine” group. Phase 1: dose levels (DL) tested of the Shingrix® DL 1: 1/2 dose of the reconstituted Shingrix® DL 2: 3/4 dose of the reconstituted Shingrix® DL 3: full dose of the reconstituted Shingrix® Phase 2: recommended phase I dose"
+    }
+}
