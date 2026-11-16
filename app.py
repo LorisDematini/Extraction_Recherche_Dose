@@ -8,11 +8,11 @@ import pandas as pd
 import docx_to_pdf
 import read_pdf
 import extract_info
+import pythoncom
 
 
 st.set_page_config(
     page_title="Recherche Dose",
-    page_icon="📚",
     layout="wide"
 )
 
@@ -25,97 +25,174 @@ st.write(
 st.divider()
 
 
-st.subheader("1. Sélection des fichiers")
+# ==================================================
+# 1. SÉLECTION DES FICHIERS
+# ==================================================
 
-docx_folder = st.text_input(
-    "Chemin du dossier contenant les fichiers DOCX :"
+
+docx_files = st.file_uploader(
+    "Sélectionner des fichiers DOCX ou PDF",
+    type=["docx", "pdf"],
+    accept_multiple_files="directory"
 )
 
-if docx_folder:
+files = [
+    f for f in (docx_files or [])
+    if not f.name.split("/")[-1].startswith("~$")
+]
 
-    if not os.path.isdir(docx_folder):
-        st.error("Le dossier indiqué n'existe pas.")
+if files:
+    n_docx = sum(f.name.lower().endswith(".docx") for f in files)
+    n_pdf = sum(f.name.lower().endswith(".pdf") for f in files)
 
-    else:
-        docx_files = [
-            f for f in os.listdir(docx_folder)
-            if f.lower().endswith(".docx")
-            and not f.startswith("~$")
-        ]
+    st.info(
+        f"{len(files)} fichiers détectés : "
+        f"{n_docx} DOCX et {n_pdf} PDF."
+    )
 
-        st.info(f"{len(docx_files)} fichiers DOCX détectés.")
-
-        if not docx_files:
-            st.warning("Aucun fichier DOCX trouvé.")
+    with st.expander("Voir les fichiers sélectionnés"):
+        for f in files:
+            st.write(f.name)
 
 
+# ==================================================
+# 2. LANCEMENT DE L'EXTRACTION
+# ==================================================
 
 if st.button(
     "Lancer l'extraction",
     type="primary",
-    disabled=not docx_folder or not os.path.isdir(docx_folder)
+    disabled=not files
 ):
 
-    if not docx_files:
-        st.warning("Aucun fichier à traiter.")
+    try:
 
-    else:
+        with tempfile.TemporaryDirectory() as temp_dir:
 
-        try:
-            with st.spinner("Conversion des fichiers DOCX en PDF..."):
+            docx_folder = os.path.join(temp_dir, "docx")
+            pdf_folder = os.path.join(temp_dir, "pdf")
 
-                with tempfile.TemporaryDirectory() as temp_dir:
+            os.makedirs(docx_folder, exist_ok=True)
+            os.makedirs(pdf_folder, exist_ok=True)
 
-                    pdf_folder = os.path.join(temp_dir, "pdf")
-                    os.makedirs(pdf_folder, exist_ok=True)
+            # ------------------------------------------
+            # 1. Enregistrement et séparation des fichiers
+            # ------------------------------------------
 
-                    # 1. DOCX -> PDF
-                    docx_to_pdf.convert_docx_folder(
-                        docx_folder,
+            docx_count = 0
+            pdf_count = 0
+
+            with st.spinner("Préparation des fichiers..."):
+
+                for uploaded_file in files:
+
+                    filename = os.path.basename(
+                        uploaded_file.name.replace("\\", "/")
+                    )
+
+                    extension = os.path.splitext(filename)[1].lower()
+
+                    if extension == ".docx":
+
+                        filepath = os.path.join(
+                            docx_folder,
+                            filename
+                        )
+
+                        with open(filepath, "wb") as f:
+                            f.write(uploaded_file.getvalue())
+
+                        docx_count += 1
+
+                    elif extension == ".pdf":
+
+                        filepath = os.path.join(
+                            pdf_folder,
+                            filename
+                        )
+
+                        with open(filepath, "wb") as f:
+                            f.write(uploaded_file.getvalue())
+
+                        pdf_count += 1
+
+            # ------------------------------------------
+            # 2. Conversion DOCX -> PDF uniquement
+            # ------------------------------------------
+
+            if docx_count > 0:
+
+                with st.spinner(
+                    f"Conversion de {docx_count} fichiers DOCX en PDF..."
+                ):
+
+                    pythoncom.CoInitialize()
+
+                    try:
+                        docx_to_pdf.convert_docx_folder(
+                            docx_folder,
+                            pdf_folder
+                        )
+
+                    finally:
+                        pythoncom.CoUninitialize()
+            # ------------------------------------------
+            # 3. Vérification des PDF
+            # ------------------------------------------
+
+            pdf_files = [
+                f for f in os.listdir(pdf_folder)
+                if f.lower().endswith(".pdf")
+            ]
+
+            if not pdf_files:
+                st.error("Aucun fichier PDF disponible pour l'extraction.")
+                st.stop()
+
+            st.success(
+                f"{len(pdf_files)} PDF disponibles pour l'extraction "
+                f"({pdf_count} PDF importés + PDF issus des DOCX)."
+            )
+
+            # ------------------------------------------
+            # 4. Extraction des tableaux et FirstPage
+            # ------------------------------------------
+
+            with st.spinner("Extraction des données PDF..."):
+
+                raw_data = (
+                    read_pdf.extract_study_tables_from_pdfs(
                         pdf_folder
                     )
+                )
 
-                    pdf_files = [
-                        f for f in os.listdir(pdf_folder)
-                        if f.lower().endswith(".pdf")
-                    ]
+            # ------------------------------------------
+            # 5. Extraction des champs normalisés
+            # ------------------------------------------
 
-                    if not pdf_files:
-                        st.error(
-                            "Aucun PDF généré. "
-                            "Vérifiez que Microsoft Word est installé."
-                        )
-                        st.stop()
+            with st.spinner("Identification des informations..."):
 
-                    st.success(
-                        f"{len(pdf_files)} fichiers PDF générés."
-                    )
+                filtered_data = (
+                    extract_info.extract_information(raw_data)
+                )
 
-                    # 2. Extraction des tableaux et FirstPage
-                    with st.spinner("Extraction des données PDF..."):
+            # ------------------------------------------
+            # 6. Conservation des résultats
+            # ------------------------------------------
 
-                        raw_data = (
-                            read_pdf.extract_study_tables_from_pdfs(
-                                pdf_folder
-                            )
-                        )
+            st.session_state["raw_data"] = raw_data
+            st.session_state["filtered_data"] = filtered_data
 
-                    # 3. Extraction des champs normalisés
-                    with st.spinner("Identification des informations..."):
+        st.success("Extraction terminée !")
 
-                        filtered_data = (
-                            extract_info.extract_information(raw_data)
-                        )
+    except Exception as e:
+        st.error(f"Une erreur est survenue : {e}")
 
-                    # Conservation des résultats après le dossier temporaire
-                    st.session_state["raw_data"] = raw_data
-                    st.session_state["filtered_data"] = filtered_data
 
-            st.success("Extraction terminée !")
 
-        except Exception as e:
-            st.error(f"Une erreur est survenue : {e}")
-
+# ==================================================
+# 3. AFFICHAGE DES RÉSULTATS
+# ==================================================
 
 if "filtered_data" in st.session_state:
 
@@ -123,7 +200,7 @@ if "filtered_data" in st.session_state:
     filtered_data = st.session_state["filtered_data"]
 
     st.divider()
-    st.subheader("2. Résultats de l'extraction")
+    st.subheader("Résultats de l'extraction")
 
     st.metric("Études extraites", len(raw_data))
 
@@ -141,9 +218,12 @@ if "filtered_data" in st.session_state:
         height=500
     )
 
-###JSON
 
-    st.subheader("3. Export des résultats")
+    # ==================================================
+    # 4. EXPORT DES RÉSULTATS
+    # ==================================================
+
+    st.subheader("Export des résultats")
 
     json_output = json.dumps(
         filtered_data,
