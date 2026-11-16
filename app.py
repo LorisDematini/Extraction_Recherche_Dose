@@ -31,14 +31,17 @@ st.divider()
 
 
 docx_files = st.file_uploader(
-    "Sélectionner des fichiers DOCX ou PDF",
+    "Sélectionner un dossier avec des DOCX ou PDF",
     type=["docx", "pdf"],
     accept_multiple_files="directory"
 )
 
+for f in docx_files or []:
+    print(f.name.split("/")[-1])
+
 files = [
     f for f in (docx_files or [])
-    if not f.name.split("/")[-1].startswith("~$")
+    if not f.name.split("/")[-1].startswith("~$") and not f.name.split("/")[-1].startswith(".")
 ]
 
 if files:
