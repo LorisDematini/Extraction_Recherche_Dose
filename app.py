@@ -8,7 +8,14 @@ import pandas as pd
 import docx_to_pdf
 import read_pdf
 import extract_info
-import pythoncom
+
+import sys
+
+# Initialisation COM uniquement sous Windows
+if sys.platform == "win32":
+    import pythoncom
+else:
+    pythoncom = None
 
 
 st.set_page_config(
@@ -123,13 +130,16 @@ if st.button(
             # 2. Conversion DOCX -> PDF uniquement
             # ------------------------------------------
 
+            
             if docx_count > 0:
 
                 with st.spinner(
                     f"Conversion de {docx_count} fichiers DOCX en PDF..."
                 ):
 
-                    pythoncom.CoInitialize()
+                    # Initialisation COM uniquement sous Windows
+                    if sys.platform == "win32":
+                        pythoncom.CoInitialize()
 
                     try:
                         docx_to_pdf.convert_docx_folder(
@@ -138,7 +148,9 @@ if st.button(
                         )
 
                     finally:
-                        pythoncom.CoUninitialize()
+                        if sys.platform == "win32":
+                            pythoncom.CoUninitialize()
+
             # ------------------------------------------
             # 3. Vérification des PDF
             # ------------------------------------------

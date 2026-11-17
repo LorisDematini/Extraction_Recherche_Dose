@@ -36,7 +36,6 @@ dependencies = [
     "pypdfium2==5.14.0",
     "python-dateutil==4.0.0",
     "python-multipart==0.0.33",
-    "pywin32==312",
     "referencing==0.37.0",
     "requests==2.34.2",
     "rpds-py==2026.9.1",
