@@ -137,7 +137,7 @@ if st.button(
                     f"Conversion de {docx_count} fichiers DOCX en PDF..."
                 ):
 
-                    # Initialisation COM uniquement sous Windows
+                    # MAC WINDOWS
                     if sys.platform == "win32":
                         pythoncom.CoInitialize()
 
@@ -235,7 +235,7 @@ if "filtered_data" in st.session_state:
 
 
     # ==================================================
-    # 4. EXPORT DES RÉSULTATS
+    # EXPORT DES RÉSULTATS
     # ==================================================
 
     st.subheader("Export des résultats")
