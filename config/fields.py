@@ -1,0 +1,38 @@
+FIELD_ALIASES = {
+    "titre": [
+        "titre",
+        "titre complet",
+        "title",
+        "full title",
+    ],
+    "Acronyme": [
+        "acronyme",
+        "acronym",
+        "Acronyme/référence",
+        "Acronym/reference",
+    ],
+    "maladie": [
+        "Population of study participants",
+        "Population concernée",
+        "Population of trial subjects",
+    ],
+    "investigateur_principal": [
+        "investigateur",
+        "investigator",
+        "investigateur coordonnateur",
+        "coordinating investigator",
+    ],
+    "numero_enregistrement": [],
+    "traitement_recherche": [
+        "traitement à l'essai",
+        "traitements à l'essai",
+        "Traitement(s) à l’essai",
+        "traitement expérimental",
+        "investigational treatment",
+        "study treatment",
+        "Investigational medicinal product(s)",
+        "caInvestigational medicinal product(s)",
+        "Investigation al medicinal product(s)",
+        "Investigational medicinal product",
+    ],
+}

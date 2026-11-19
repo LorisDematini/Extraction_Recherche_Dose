@@ -1,24 +1,14 @@
-
+import logging
 import os
 import re
-import logging
-import unicodedata
+from typing import Dict
+
 import pdfplumber
 
-from typing import Dict, List, Optional
+from extraction.pdf_tables import build_fields, clean_table, find_acronym
+from processing.normalization import normalize_text
 
 logging.getLogger("pdfminer").setLevel(logging.ERROR)
-
-
-def normalize_text(text: Optional[str]) -> str:
-    if not text:
-        return ""
-
-    text = unicodedata.normalize("NFKD", text)
-    text = "".join(c for c in text if not unicodedata.combining(c))
-    text = re.sub(r"\s+", " ", text)
-
-    return text.strip().lower()
 
 
 SUMMARY_KEYWORDS = [
@@ -36,7 +26,8 @@ SUMMARY_KEYWORDS = [
 ]
 
 
-def is_summary_page(page_text: str, tables: List) -> bool:
+def is_summary_page(page_text: str, tables: list) -> bool:
+    """Indique si une page semble contenir le résumé tabulaire du protocole."""
     text = normalize_text(page_text)
 
     if not tables:
@@ -46,6 +37,7 @@ def is_summary_page(page_text: str, tables: List) -> bool:
 
 
 def is_next_section(page_text: str) -> bool:
+    """Détecte le début d'une section numérotée après le résumé."""
     lines = page_text.splitlines()
 
     for line in lines[:15]:
@@ -53,94 +45,27 @@ def is_next_section(page_text: str) -> bool:
 
         if re.match(
             r"^(?:[2-9]|1[0-9])\s+[A-ZÀ-ÖØ-Þ][A-ZÀ-ÖØ-Þ\s'’\-–:]+$",
-            line
+            line,
         ):
             return True
 
     return False
 
 
-def clean_table(table: List) -> List[List[str]]:
-    cleaned = []
-
-    for row in table:
-        if not row:
-            continue
-
-        cleaned_row = []
-
-        for cell in row:
-            if cell is None:
-                cleaned_row.append("")
-            else:
-                cell = str(cell)
-                cell = re.sub(r"\s+", " ", cell).strip()
-                cleaned_row.append(cell)
-
-        if any(cleaned_row):
-            cleaned.append(cleaned_row)
-
-    return cleaned
-
-
-def build_fields(rows: List[List[str]]) -> Dict[str, str]:
-    fields = {}
-    current_key = None
-
-    for row in rows:
-        key = row[0].strip() if row else ""
-
-        value = " ".join(
-            cell.strip()
-            for cell in row[1:]
-            if cell and cell.strip()
-        )
-
-        if key and value:
-            current_key = key
-
-            if current_key in fields:
-                fields[current_key] += " " + value
-            else:
-                fields[current_key] = value
-
-        elif not key and value and current_key:
-            fields[current_key] += " " + value
-
-    return fields
-
-
-def find_acronym(fields: Dict[str, str]) -> Optional[str]:
-    acronym_keywords = [
-        "acronyme",
-        "acronym",
-        "abbreviated title",
-        "abbreviated name",
-        "study code",
-        "study reference",
-    ]
-
-    for key, value in fields.items():
-        normalized_key = normalize_text(key)
-
-        if any(keyword in normalized_key for keyword in acronym_keywords):
-            if value.strip():
-                return value.strip().split()[0].strip(":;,. ")
-
-    return None
-
-
 def extract_first_page_text(page) -> str:
+    """Extrait le texte de la première page sur une seule ligne."""
     text = page.extract_text() or ""
     return re.sub(r"\s+", " ", text).strip()
 
 
 def extract_study_tables_from_pdfs(pdf_folder: str) -> Dict:
-
+    """
+    Parcourt les PDF, repère le résumé du protocole et reconstruit ses champs.
+    Chaque étude est indexée par son acronyme, ou par le nom du fichier.
+    """
     final_data = {}
 
     for file_name in os.listdir(pdf_folder):
-
         if not file_name.lower().endswith(".pdf"):
             continue
 
@@ -148,37 +73,36 @@ def extract_study_tables_from_pdfs(pdf_folder: str) -> Dict:
 
         try:
             with pdfplumber.open(file_path) as pdf:
-
                 first_page_text = (
                     extract_first_page_text(pdf.pages[0])
-                    if pdf.pages else ""
+                    if pdf.pages
+                    else ""
                 )
 
                 capture_mode = False
                 extracted_rows = []
 
-                for page_number, page in enumerate(pdf.pages, start=1):
-
+                for page in pdf.pages:
                     page_text = page.extract_text() or ""
                     tables = page.extract_tables()
 
                     if not capture_mode:
                         if not is_summary_page(page_text, tables):
                             continue
-
                         capture_mode = True
-
-                    else:
-                        if is_next_section(page_text):
-                            break
+                    elif is_next_section(page_text):
+                        break
 
                     for table in tables:
                         cleaned_table = clean_table(table)
-
                         if cleaned_table:
                             extracted_rows.extend(cleaned_table)
 
                 if not extracted_rows:
+                    logging.warning(
+                        "Aucun tableau de résumé détecté dans %s",
+                        file_name,
+                    )
                     continue
 
                 fields = build_fields(extracted_rows)
@@ -187,7 +111,7 @@ def extract_study_tables_from_pdfs(pdf_folder: str) -> Dict:
                 if not acronym:
                     acronym = os.path.splitext(file_name)[0]
 
-                # Évite d'écraser une étude en cas d'acronyme identique
+                # Évite d'écraser une étude si plusieurs fichiers ont le même acronyme.
                 study_id = acronym
                 counter = 2
 
@@ -198,10 +122,10 @@ def extract_study_tables_from_pdfs(pdf_folder: str) -> Dict:
                 final_data[study_id] = {
                     "FirstPage": first_page_text,
                     "source_file": file_name,
-                    **fields
+                    **fields,
                 }
 
-        except Exception as e:
-            print(f"Erreur sur {file_name}: {e}")
+        except Exception:
+            logging.exception("Erreur pendant la lecture du fichier %s", file_name)
 
     return final_data

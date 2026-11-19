@@ -6,3 +6,6 @@ pdf/
 __pycache__/
 *.pyc
 .env
+
+#Vieux code
+OLD/
