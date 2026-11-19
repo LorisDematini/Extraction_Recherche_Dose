@@ -35,4 +35,14 @@ FIELD_ALIASES = {
         "Investigation al medicinal product(s)",
         "Investigational medicinal product",
     ],
+    "Design": [
+        "Design",
+        "Study design",
+        "Conception de l'étude",
+        "Design of the study",
+        "Schéma expérimental",
+        "Experimental design",
+        "Schéma de l'étude",
+        "Study schema",
+    ],
 }
