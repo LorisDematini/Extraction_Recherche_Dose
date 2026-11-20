@@ -1,3 +1,4 @@
+
 import logging
 import os
 import re
@@ -52,16 +53,26 @@ def is_next_section(page_text: str) -> bool:
     return False
 
 
-def extract_first_page_text(page) -> str:
-    """Extrait le texte de la première page sur une seule ligne."""
+def extract_page_text(page) -> str:
+    """Extrait le texte d'une page sur une seule ligne."""
     text = page.extract_text() or ""
     return re.sub(r"\s+", " ", text).strip()
 
 
+def extract_all_pages(pdf) -> Dict[int, str]:
+    """Extrait toutes les pages du PDF individuellement."""
+    pages = {}
+
+    for page_number, page in enumerate(pdf.pages, start=1):
+        pages[page_number] = extract_page_text(page)
+
+    return pages
+
+
 def extract_study_tables_from_pdfs(pdf_folder: str) -> Dict:
     """
-    Parcourt les PDF, repère le résumé du protocole et reconstruit ses champs.
-    Chaque étude est indexée par son acronyme, ou par le nom du fichier.
+    Parcourt les PDF, récupère le texte de toutes les pages
+    et reconstruit les champs du résumé du protocole.
     """
     final_data = {}
 
@@ -73,28 +84,31 @@ def extract_study_tables_from_pdfs(pdf_folder: str) -> Dict:
 
         try:
             with pdfplumber.open(file_path) as pdf:
-                first_page_text = (
-                    extract_first_page_text(pdf.pages[0])
-                    if pdf.pages
-                    else ""
-                )
 
+                # 1. Extraction du texte de toutes les pages
+                pages = extract_all_pages(pdf)
+
+                # 2. Recherche du résumé et extraction des tableaux
                 capture_mode = False
                 extracted_rows = []
 
-                for page in pdf.pages:
-                    page_text = page.extract_text() or ""
+                for page_number, page in enumerate(pdf.pages, start=1):
+
+                    page_text = pages[page_number]
                     tables = page.extract_tables()
 
                     if not capture_mode:
                         if not is_summary_page(page_text, tables):
                             continue
+
                         capture_mode = True
+
                     elif is_next_section(page_text):
                         break
 
                     for table in tables:
                         cleaned_table = clean_table(table)
+
                         if cleaned_table:
                             extracted_rows.extend(cleaned_table)
 
@@ -105,13 +119,14 @@ def extract_study_tables_from_pdfs(pdf_folder: str) -> Dict:
                     )
                     continue
 
+                # 3. Reconstruction des champs du résumé
                 fields = build_fields(extracted_rows)
                 acronym = find_acronym(fields)
 
                 if not acronym:
                     acronym = os.path.splitext(file_name)[0]
 
-                # Évite d'écraser une étude si plusieurs fichiers ont le même acronyme.
+                # 4. Gestion des acronymes identiques
                 study_id = acronym
                 counter = 2
 
@@ -119,13 +134,17 @@ def extract_study_tables_from_pdfs(pdf_folder: str) -> Dict:
                     study_id = f"{acronym}_{counter}"
                     counter += 1
 
+                # 5. Conservation des données
                 final_data[study_id] = {
-                    "FirstPage": first_page_text,
                     "source_file": file_name,
-                    **fields,
+                    "pages": pages,
+                    "summary_fields": fields,
                 }
 
         except Exception:
-            logging.exception("Erreur pendant la lecture du fichier %s", file_name)
+            logging.exception(
+                "Erreur pendant la lecture du fichier %s",
+                file_name,
+            )
 
     return final_data

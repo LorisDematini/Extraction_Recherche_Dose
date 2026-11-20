@@ -11,7 +11,7 @@ from extraction.information_extractor import extract_information
 from interface.file_uploader import render_file_uploader
 from interface.results_display import render_results
 from interface.exports import render_exports
-
+from processing.page_search import search_in_pages
 
 def save_uploaded_files(uploaded_files, docx_folder, pdf_folder):
     """Enregistre les fichiers importés dans les dossiers temporaires adaptés."""
